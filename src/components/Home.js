@@ -3,12 +3,14 @@ import BlogList from './BlogList'
 import useFetch from '../useFetch'
 
 function Home() {
-    const { data:blogs, isLoading, error } = useFetch("https://dummyjson.com/posts")
+    const { data: blogs, isLoading, error } = useFetch("https://dummyjson.com/posts")
+    const { data: userList } = useFetch("https://dummyjson.com/users")
+    console.log(userList);
     return (
         <div className='home'>
             {error && <div>{error}</div>}
             {isLoading && <h1>Loading...</h1>}
-            {blogs && <BlogList blogs={blogs} title="All Blogs" />}
+            {blogs && userList && <BlogList blogs={blogs} userList={userList} title="All Blogs" />}
         </div>
     )
 }
