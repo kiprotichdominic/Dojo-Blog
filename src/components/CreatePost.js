@@ -18,7 +18,6 @@ function CreatePost() {
     function handleSubmit(event) {
         event.preventDefault();
         setIsPending(true)
-        console.log(userId);
         fetch('https://dummyjson.com/posts/add', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -31,7 +30,6 @@ function CreatePost() {
                 res.json()
             })
             .then((res) => {
-                console.log(res)
                 navigate("/")
             });
     }

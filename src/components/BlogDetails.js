@@ -21,7 +21,6 @@ function BlogDetails() {
                 res.json()
             })
             .then(() => {
-                // console.log
                 navigate("/")
             });
 

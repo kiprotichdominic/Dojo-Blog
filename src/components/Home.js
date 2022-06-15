@@ -5,7 +5,6 @@ import useFetch from '../useFetch'
 function Home() {
     const { data: blogs, isLoading, error } = useFetch("https://dummyjson.com/posts")
     const { data: userList } = useFetch("https://dummyjson.com/users")
-    console.log(userList);
     return (
         <div className='home'>
             {error && <div>{error}</div>}
