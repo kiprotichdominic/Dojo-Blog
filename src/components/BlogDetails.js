@@ -1,9 +1,13 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
 
 function BlogDetails() {
+
+    const { id } = useParams()
+
     return (
         <div className='blog-details'>
-            <h2>BlogDetails</h2>
+            <h2>{id}</h2>
         </div>
     )
 }
