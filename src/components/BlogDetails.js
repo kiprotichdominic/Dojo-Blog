@@ -2,7 +2,9 @@ import React from 'react'
 
 function BlogDetails() {
     return (
-        <div>BlogDetails</div>
+        <div className='blog-details'>
+            <h2>BlogDetails</h2>
+        </div>
     )
 }
 
