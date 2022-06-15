@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import useFetch from '../useFetch';
+import { useNavigate } from "react-router-dom"
 
 function CreatePost() {
 
@@ -10,9 +11,13 @@ function CreatePost() {
     const [userId, setUserId] = useState(null)
     const [body, setBody] = useState("")
     const [tags, setTags] = useState("")
-    const blog = { title, userId, body, tags }
+
+    const [isPending, setIsPending] = useState(false)
+    const navigate = useNavigate()
+
     function handleSubmit(event) {
         event.preventDefault();
+        setIsPending(true)
         console.log(userId);
         fetch('https://dummyjson.com/posts/add', {
             method: 'POST',
@@ -22,13 +27,12 @@ function CreatePost() {
             })
         })
             .then(res => {
-                if (!res.ok) {
-                    throw Error("Failed To Post!!")
-                }
+                setIsPending(false)
                 res.json()
             })
-            .then(res => {
+            .then((res) => {
                 console.log(res)
+                navigate("/")
             });
     }
     return (
@@ -67,7 +71,8 @@ function CreatePost() {
                     value={tags}
                     onChange={(e) => setTags(e.target.value,)}
                     required />
-                <button type="submit">Add Blog</button>
+                {!isPending && <button type="submit">Add Blog</button>}
+                {isPending && <button disabled type="submit">Adding Blog...</button>}
             </form>
         </div>
     )

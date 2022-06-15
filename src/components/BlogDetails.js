@@ -1,22 +1,43 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import useFetch from '../useFetch'
 
 function BlogDetails() {
 
     const { id } = useParams()
-    const { data:posts, error, isPending } = useFetch(`https://dummyjson.com/posts/${id}`)
-    const { data:userList } = useFetch(`https://dummyjson.com/users/${id}`)
+    const { data: post, error, isPending } = useFetch(`https://dummyjson.com/posts/${id}`)
+    const { data: userList } = useFetch(`https://dummyjson.com/users/${id}`)
+
+    const [isDeleted, setIsDeleted] = useState(false)
+    const navigate = useNavigate()
+
+    function handleDelete() {
+        setIsDeleted(true)
+        fetch(`https://dummyjson.com/posts/${post.id}`, {
+            method: 'DELETE',
+        })
+            .then(res => {
+                setIsDeleted(true)
+                res.json()
+            })
+            .then(() => {
+                // console.log
+                navigate("/")
+            });
+
+    }
 
     return (
         <div className='blog-details'>
             {isPending && <h1>Loading...</h1>}
             {error && <div>{error}</div>}
-            {posts && userList &&
+            {post && userList &&
                 <article>
-                    <h2>{posts.title}</h2>
+                    <h2>{post.title}</h2>
                     <i style={{ fontWeight: "bold" }}>Written By: {userList.firstName} {userList.lastName}</i>
-                    <p>{posts.body} </p>
+                    <p>{post.body} </p>
+                    {!isDeleted && <button onClick={handleDelete} type="button">Delete Blog</button>}
+                    {isDeleted && <button disabled type="submit">Deleting Blog...</button>}
                 </article>
             }
         </div>
